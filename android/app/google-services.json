@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "163743795522",
+    "firebase_url": "https://flash-chat-175be.firebaseio.com",
+    "project_id": "flash-chat-175be",
+    "storage_bucket": "flash-chat-175be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:163743795522:android:da265d11076b430df260db",
+        "android_client_info": {
+          "package_name": "com.dauntlessdev.flash_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "163743795522-q0ght5a0c68u6nj1rve2ctqkc8desd0e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-BwAvuAkLKi8HiwwzlkjuanWnZnKzZ0g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "163743795522-q0ght5a0c68u6nj1rve2ctqkc8desd0e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
