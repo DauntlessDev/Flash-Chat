@@ -12,6 +12,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final _firestore = Firestore.instance;
   final _auth = FirebaseAuth.instance;
+  final messageTextController = TextEditingController();
   FirebaseUser loggedInUser;
   String messageText;
 
@@ -71,6 +72,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 children: <Widget>[
                   Expanded(
                     child: TextField(
+                      controller: messageTextController,
                       onChanged: (value) {
                         messageText = value;
                       },
@@ -79,6 +81,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   FlatButton(
                     onPressed: () {
+                      messageTextController.clear();
                       _firestore.collection('messages').add(
                           {'text': messageText, 'sender': loggedInUser.email});
                     },
@@ -152,7 +155,7 @@ class MessageBubble extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
-          Text(this.sender, style: TextStyle(color: Colors.grey),),
+          Text(this.sender, style: TextStyle(color: Colors.grey[600]),),
           Material(
             color: this.color,
             borderRadius: BorderRadius.circular(30.0),
