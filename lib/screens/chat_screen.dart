@@ -63,28 +63,7 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            StreamBuilder<QuerySnapshot>(
-              stream: _firestore.collection('messages').snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(
-                      child: CircularProgressIndicator(
-                    backgroundColor: loginColor,
-                  ));
-                }
-                List<Text> messageList = [];
-                for (var message in snapshot.data.documents) {
-                  final messageText = message.data['text'];
-                  final messageSender = message.data['sender'];
-
-                  messageList.add(Text('$messageText from $messageSender'));
-                }
-
-                return Column(
-                  children: messageList,
-                );
-              },
-            ),
+            MessageBuilder(firestore: _firestore),
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(
@@ -113,6 +92,80 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class MessageBuilder extends StatelessWidget {
+  const MessageBuilder({
+    @required Firestore firestore,
+  }) : _firestore = firestore;
+
+  final Firestore _firestore;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: _firestore.collection('messages').snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(
+              child: CircularProgressIndicator(
+            backgroundColor: loginColor,
+          ));
+        }
+        List<MessageBubble> messageList = [];
+        for (var message in snapshot.data.documents) {
+          final messageText = message.data['text'];
+          final messageSender = message.data['sender'];
+
+          messageList.add(MessageBubble(
+            text: messageText,
+            sender: messageSender,
+            color: loginColor,
+          ));
+        }
+
+        return Expanded(
+          child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            children: messageList,
+          ),
+        );
+      },
+    );
+  }
+}
+
+
+class MessageBubble extends StatelessWidget {
+  MessageBubble(
+      {@required this.color, @required this.sender, @required this.text});
+  final Color color;
+  final String sender;
+  final String text;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          Text(this.sender, style: TextStyle(color: Colors.grey),),
+          Material(
+            color: this.color,
+            borderRadius: BorderRadius.circular(30.0),
+            elevation: 3.0,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: Text(
+                this.text,
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
